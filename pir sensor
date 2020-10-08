@@ -1,0 +1,16 @@
+int LED=13;
+int pir=2;
+void setup() {
+pinMode(LED,OUTPUT);
+pinMode(pir,INPUT);  
+
+}
+
+void loop() {
+if(digitalRead(pir) == HIGH){
+digitalWrite(LED,HIGH);
+}
+  else{
+digitalWrite(LED,LOW); 
+}
+}
