@@ -1,0 +1,20 @@
+int LED=9;
+int RE;
+int X=300;
+
+void setup(){
+pinMode(LED,OUTPUT); 
+Serial.begin(9600);
+}
+
+void loop()
+{
+ RE=analogRead(A1);
+ Serial.println(RE);
+ if(RE>X){
+ digitalWrite(LED,LOW);
+ }
+else{
+  digitalWrite(LED,HIGH);
+}
+}
