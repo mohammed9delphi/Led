@@ -1,0 +1,23 @@
+#include <Stepper.h>
+#define STEPS_PER_MOTOR_REVOLUTION 32
+#define STEPS_PER_OUTPUT_REVOLUTION 32 *64
+Stepper stepper(STEPS_PER_MOTOR_REVOLUTION,8,10,9,11);
+int Steps2Take;
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+Steps2Take = STEPS_PER_OUTPUT_REVOLUTION;
+stepper.setSpeed(700);
+
+stepper.step(2048);
+delay(1000);
+Steps2Take =  -STEPS_PER_OUTPUT_REVOLUTION;
+stepper.setSpeed(500);
+stepper.step (-2048);
+
+delay(1000);
+}
