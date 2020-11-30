@@ -1,0 +1,21 @@
+#include <SimpleDHT.h>
+SimpleDHT11 s;
+void setup() {
+  Serial.begin(115200);
+ 
+}
+unsigned long d;
+void loop() {
+
+
+  byte t = 0;
+  byte h = 0;
+  
+  if(millis() - d > 1500){
+s.read(2, &t, &h, NULL);
+
+Serial.print(t); Serial.print(" *C, "); 
+Serial.print(h); Serial.println(" H");
+  d = millis();  
+  }
+}
