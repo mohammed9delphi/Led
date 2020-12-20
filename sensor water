@@ -1,0 +1,21 @@
+int LWD=7; 
+int WATER;
+void setup() {
+ 
+pinMode(7,OUTPUT);
+
+Serial.begin(9600);
+}
+void loop() {
+WATER=analogRead(A0);
+Serial.print("WATER=");
+Serial.println(WATER); 
+
+delay(500);
+if(WATER>300)
+{
+  digitalWrite(7,HIGH);}
+  else{
+    digitalWrite(7,LOW);
+}
+}
