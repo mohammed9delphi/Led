@@ -1,0 +1,107 @@
+/*
+   -- New project --
+   
+   This source code of graphical user interface 
+   has been generated automatically by RemoteXY editor.
+   To compile this code using RemoteXY library 2.4.3 or later version 
+   download by link http://remotexy.com/en/library/
+   To connect using RemoteXY mobile app by link http://remotexy.com/en/download/                   
+     - for ANDROID 4.5.1 or later version;
+     - for iOS 1.4.1 or later version;
+    
+   This source code is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.    
+*/
+
+//////////////////////////////////////////////
+//        RemoteXY include library          //
+//////////////////////////////////////////////
+
+// RemoteXY select connection mode and include library 
+#define REMOTEXY_MODE__ESP8266_HARDSERIAL_POINT
+
+#include <RemoteXY.h>
+
+// RemoteXY connection settings 
+#define REMOTEXY_SERIAL Serial
+#define REMOTEXY_SERIAL_SPEED 115200
+#define REMOTEXY_WIFI_SSID "RemoteXY"
+#define REMOTEXY_WIFI_PASSWORD "12345678"
+#define REMOTEXY_SERVER_PORT 6377
+
+
+// RemoteXY configurate  
+#pragma pack(push, 1)
+uint8_t RemoteXY_CONF[] =
+  { 255,1,0,13,0,59,0,10,13,0,
+  2,0,7,3,22,11,2,26,31,31,
+  79,78,0,79,70,70,0,129,0,52,
+  31,19,6,17,116,101,109,112,32,99,
+  0,66,129,60,22,33,5,2,26,66,
+  193,34,22,26,5,2,26,67,4,52,
+  14,20,5,2,26,11 };
+  
+// this structure defines all the variables and events of your control interface 
+struct {
+
+    // input variables
+  uint8_t switch_1; // =1 if switch ON and =0 if OFF 
+
+    // output variables
+  int8_t level_1; // =0..100 level position 
+  int8_t level_2; // =0..100 level position 
+  char text_1[11];  // string UTF8 end zero 
+
+    // other variable
+  uint8_t connect_flag;  // =1 if wire connected, else =0 
+
+} RemoteXY;
+#pragma pack(pop)
+
+/////////////////////////////////////////////
+//           END RemoteXY include          //
+/////////////////////////////////////////////
+
+#define PIN_SWITCH_1 8
+
+int vul;
+void setup() 
+{
+  RemoteXY_Init (); 
+  
+  pinMode (PIN_SWITCH_1, OUTPUT);
+  
+  // TODO you setup code
+  
+}
+
+void loop() 
+{ 
+  RemoteXY_Handler ();
+  
+  digitalWrite(PIN_SWITCH_1, (RemoteXY.switch_1==0)?LOW:HIGH);
+  
+  
+ vul=analogRead(A2);
+ float mv = (vul/1024.0)*5000;
+ float cel = mv/10;
+ Serial.print("vul=");
+  
+ dtostrf(vul, 0, 1, RemoteXY.text_1); 
+ if (vul<0) { 
+    RemoteXY.level_1 = 0; 
+    RemoteXY.level_2 = min (-vul*2,100); 
+ }
+  else if (vul>0) { 
+    RemoteXY.level_1 = min(vul*2,100); 
+    RemoteXY.level_2 = 0; 
+  } 
+   else { 
+    RemoteXY.level_1 = 0; 
+    RemoteXY.level_2 = 0; 
+  } 
+
+
+}
