@@ -1,0 +1,64 @@
+#include <IRremote.h>
+int RECV_PIN = 9;
+int buttonState ;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+ 
+void setup() {
+  Serial.begin(9600);
+  irrecv.enableIRIn();
+  pinMode( 2, OUTPUT);
+  pinMode( 3, OUTPUT); 
+   pinMode( 4, OUTPUT); 
+   
+  buttonState = HIGH; 
+}
+ 
+void loop() {
+  
+    buttonState = digitalRead(2);    
+  if (irrecv.decode(&results)) {   
+    
+    if (results.value == 0xFFE21D
+) { 
+        digitalWrite(2, LOW);
+        }
+    if (results.value == 0xFF18E7) { 
+        digitalWrite(2, HIGH); 
+        } 
+   
+
+   buttonState = digitalRead(3);
+        
+  if (irrecv.decode(&results)) {   
+    
+    if (results.value == 0xFF629D
+) { 
+        digitalWrite(3, LOW); 
+        }
+    if (results.value == 0xFF7A85) { 
+        digitalWrite(3, HIGH); 
+        }   
+         buttonState = digitalRead(4);
+        
+  if (irrecv.decode(&results)) {   
+    
+    if (results.value == 0xFFA25D
+) { 
+        digitalWrite(4, LOW); 
+        }
+    if (results.value == 0xFF10EF) { 
+        digitalWrite(4, HIGH); 
+        }   
+                   
+  irrecv.resume(); 
+  }
+  
+  Serial.print(" ");
+  Serial.println(results.value, HEX);
+   
+  
+  delay(100);
+  }
+  }
+  }
